@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title
+  p #{description}
+  p= `The wastage includes ${pasta}% - Pasta and ${bread}% - Bread`
+  textarea(id="responseTextArea")
+  break
+
+  form(method='GET' action='/')
+    button.btn.btn-primary(type='submit') Back
+
