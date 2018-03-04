@@ -3,8 +3,7 @@ extends layout
 block content
   h1= title
   p #{description}
-  p= `The wastage includes ${pasta}% - Pasta and ${bread}% - Bread`
-  textarea(id="responseTextArea")
+  p= `There is ${prediction}% wastage of Pasta by a person of approximate age and gender ${age} and ${gender} respectively`
   break
 
   form(method='GET' action='/')

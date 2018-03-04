@@ -23,7 +23,9 @@ router.post('/', function (req, res, next) {
     res.render('results', {
       title: 'Plate Composition Stats',
       description: 'Wastage Analysis',
-      prediction: data.prediction
+      prediction: data.prediction,
+      age: response2[0].faceAttributes.age,
+      gender: response2[0].faceAttributes.gender,
     })
   }).catch(reason => {
     console.log(`Promise was rejected because ${reason}`)
@@ -62,22 +64,34 @@ function callAPI (url) {
 
 function getPredictionData (predictions) {
   for(var p of predictions){
-    if (p.Tag == 'Quarter' && p.Probability*100 > 30) {
-      prediction = 25
-      break
+    if (p.Tag == 'Quarter'){
+      quarter = p.Probability*100
     }
-    else if (p.Tag == 'Half' && p.Probability*100 > 30) {
-      prediction = 50
-      break
+    else if (p.Tag == 'Half'){
+      half = p.Probability*100
     }
-    else if ((p.Tag == 'Full' && p.Probability*100 > 80) || (p.Tag == 'Pasta' && p.Probability*100 > 75)) {
-      prediction = 90
-      break
+    else if (p.Tag == 'Full'){
+      full = p.Probability*100
     }
-    else if (p.Tag){
-      prediction = 0
-      break
+    else if (p.Tag == 'Empty'){
+      empty = p.Probability*100
     }
+    else{
+      empty_space = p.Probability*100
+    }  
+  }
+
+  if (quarter > 35) {
+    prediction = 25
+  }
+  else if (half > 30) {
+    prediction = 50
+  }
+  else if (full > 75) {
+    prediction = 90
+  }
+  else {
+    prediction = 0
   } 
 
   // Store suggestion
@@ -118,7 +132,7 @@ function processImage(face_url) {
 
         // Perform the REST API call.
         const options = {
-          uri: 'https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age',
+          uri: 'https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender',
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
