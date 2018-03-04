@@ -4,8 +4,8 @@ const router = express.Router()
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index',
-    { title: 'Can\'t wait another 2 years for Game of Thrones to come back?',
-      description: 'We can\'t either. Enter the link of a photo to find out if you belong in House Stark, House Lannister, or House Targaryen!' })
+    { title: 'Let\'s check out how much food is wasted everyday?',
+      description: 'Enter the feed for the wasted plate and the person responsible for it' })
 })
 
 module.exports = router
